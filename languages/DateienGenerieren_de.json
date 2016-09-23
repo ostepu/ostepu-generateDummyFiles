@@ -1,0 +1,19 @@
+{
+    "main": {
+        "title": "Dateisystem auffüllen",
+        "description": "Die Einträge der DBFile Tabelle werden verwendet, um fehlende Dateien im Dateisystem mit Beispieldaten aufzufüllen."
+    },
+    "listFiles": {
+        "listDesc": "Ermittelt die Dateien in der Datenbank, mit denen dieses Modul etwas anfangen kann.",
+        "list": "Zustand ermitteln",
+        "noData": "keine Datensätze",
+        "sum": "Summe",
+        "summary": "die nachfolgenden Dateien wurden im Dateisystem gefunden.",
+        "unknown": "unbekannter Typ"
+    },
+    "generateFiles": {
+        "generateDesc": "Erzeugt fehlende Dateien im Dateisystem, indem Dummy-Dateien eingesetzt werden.",
+        "generate": "Dateien erzeugen",
+        "generatedFiles": "erzeugte Dateien"
+    }
+}
