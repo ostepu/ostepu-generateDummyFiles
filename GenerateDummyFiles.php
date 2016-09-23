@@ -1,14 +1,14 @@
 <?php
-#region DateienGenerieren
-class DateienGenerieren
+#region GenerateDummyFiles
+class GenerateDummyFiles
 {
     private static $initialized=false;
-    public static $name = 'dateienGenerieren';
+    public static $name = 'generateDummyFiles';
     public static $installed = false;
     public static $page = 8;
     public static $rank = 100;
     public static $enabledShow = true;
-    private static $langTemplate='DateienGenerieren';
+    private static $langTemplate='GenerateDummyFiles';
 
     public static $onEvents = array(
                                     'listFiles'=>array(
@@ -255,4 +255,4 @@ class DateienGenerieren
         return $res;
     }
 }
-#endregion BackupSegment
+#endregion GenerateDummyFiles

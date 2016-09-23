@@ -1,0 +1,11 @@
+{
+  "name":"TGenerateDummyFiles",
+  "version":"1.0",
+  "type":"clone",
+  "base":"CAbstract",
+  "baseURI":"/tgeneratedummyfiles",
+  "option":"confPath=install/segments/ext_GenerateDummyFiles/tgeneratedummyfiles_cconfig.json",
+  "links":[
+    {"name":"getFiles","target":"DBFile","links":[]}
+  ]
+}
