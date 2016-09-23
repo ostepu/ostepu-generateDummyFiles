@@ -143,7 +143,7 @@ class GenerateDummyFiles
         Installation::log(array('text'=>Installation::Get('main','functionBegin')));
         $res = array('filesTypes'=>array('unknown'=>0), 'missingFiles'=>array('unknown'=>0));
 
-        $list = Einstellungen::getLinks('getFiles', dirname(__FILE__), '/tgeneratefiles_cconfig.json');
+        $list = Einstellungen::getLinks('getFiles', dirname(__FILE__), '/tgeneratedummyfiles_cconfig.json');
 
         $multiRequestHandle = new Request_MultiRequest();
 
@@ -212,7 +212,7 @@ class GenerateDummyFiles
         Installation::log(array('text'=>Installation::Get('main','functionBegin')));
         $res = array('generatedFiles'=>0);
 
-        $list = Einstellungen::getLinks('getFiles', dirname(__FILE__), '/tgeneratefiles_cconfig.json');
+        $list = Einstellungen::getLinks('getFiles', dirname(__FILE__), '/tgeneratedummyfiles_cconfig.json');
 
         $multiRequestHandle = new Request_MultiRequest();
 
