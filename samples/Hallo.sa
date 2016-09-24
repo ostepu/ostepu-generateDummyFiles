@@ -1,0 +1,5 @@
+class HALLO is
+   main is
+       TEXT::sout << "Hallo!\n";
+   end;
+end;

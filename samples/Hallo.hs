@@ -1,2 +1,2 @@
--- hello world example
-main = putStrLn "Hello, World!"
+-- Hallo example
+main = putStrLn "Hallo!"

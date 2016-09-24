@@ -67,13 +67,16 @@ class GenerateDummyFiles
                 $text .= Design::erstelleZeile($console, '','','','' );
                 $text .= Design::erstelleZeile($console, Installation::Get('listFiles','summary',self::$langTemplate),'e' );
             }
+            
+            arsort($content['filesTypes']);
 
             $all = 0;
             $existing = 0;
             foreach($content['filesTypes'] as $key => $amount){
+                if ($amount == 0) continue;
                 $all += $amount;
                 $name = $key;
-                if ($name === 'unknown'){
+                if ($name === '_unknown'){
                     $name = Installation::Get('listFiles','unknown',self::$langTemplate);
                 }
                 $existingFiles = $amount - (isset($content['missingFiles'][$key]) ? $content['missingFiles'][$key] : 0);
@@ -117,6 +120,21 @@ class GenerateDummyFiles
         // der Typ der Datei wird anhand des mimeType oder des Namens ermittelt
         if (isset($file['mimeType'])){
             if ($file['mimeType'] === 'application/pdf') return 'PDF';
+            if ($file['mimeType'] === 'application/zip') return 'ZIP';
+            if ($file['mimeType'] === 'application/x-rar') return 'RAR';
+            if ($file['mimeType'] === 'application/x-gzip') return 'GZIP';
+            if ($file['mimeType'] === 'application/x-compressed') return 'GZIP';
+            if ($file['mimeType'] === 'image/jpeg') return 'JPEG';
+            if ($file['mimeType'] === 'image/png') return 'PNG';
+            if ($file['mimeType'] === 'image/gif') return 'GIF';
+            if ($file['mimeType'] === 'image/bmp') return 'BMP';
+            if ($file['mimeType'] === 'image/x-windows-bmp') return 'BMP';
+            if ($file['mimeType'] === 'text/rtf') return 'RTF';
+            if ($file['mimeType'] === 'application/vnd.oasis.opendocument.text') return 'ODT';
+            if ($file['mimeType'] === 'application/vnd.oasis.opendocument.graphics') return 'ODG';
+            if ($file['mimeType'] === 'application/msword') return 'DOC';
+            if ($file['mimeType'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return 'DOCX';
+            if ($file['mimeType'] === 'text/x-tex') return 'TEX';
         
         }
         
@@ -125,10 +143,31 @@ class GenerateDummyFiles
         if ($ext === 'java') return 'JAVA';
         if ($ext === 'txt') return 'TEXT';
         if ($ext === 'hs') return 'HASKELL';
+        if ($ext === 'zip') return 'ZIP';
+        if ($ext === 'rar') return 'RAR';
+        if ($ext === 'gz') return 'GZIP';
+        if ($ext === 'tgz') return 'GZIP';
+        if ($ext === 'gzip') return 'GZIP';
+        if ($ext === 'c') return 'C';
+        if ($ext === 'cpp') return 'CPP';
+        if ($ext === 'sa') return 'SATHERK';
+        if ($ext === 'jpg') return 'JPG';
+        if ($ext === 'png') return 'PNG';
+        if ($ext === 'gif') return 'GIF';
+        if ($ext === 'bmp') return 'BMP';
+        if ($ext === 'rtf') return 'RTF';
+        if ($ext === 'odt') return 'ODT';
+        if ($ext === 'odg') return 'ODG';
+        if ($ext === 'doc') return 'DOC';
+        if ($ext === 'docx') return 'DOCX';
+        if ($ext === 'tex') return 'TEX';
         
         if (isset($file['mimeType'])){
             if ($file['mimeType'] === 'text/plain') return 'TEXT';
-        
+            // wenn der Dateityp unbekannt ist, soll TEXT genommen werden
+            if ($file['mimeType'] === 'application/octet-stream') return 'TEXT';
+            if ($file['mimeType'] === 'text/x-c') return 'C';
+            if ($file['mimeType'] === 'text/x-c++') return 'CPP';
         }     
 
         if (!isset($file['mimeType'])){
@@ -141,7 +180,7 @@ class GenerateDummyFiles
     public static function installListFiles($data, &$fail, &$errno, &$error)
     {
         Installation::log(array('text'=>Installation::Get('main','functionBegin')));
-        $res = array('filesTypes'=>array('unknown'=>0), 'missingFiles'=>array('unknown'=>0));
+        $res = array('filesTypes'=>array('_unknown'=>0), 'missingFiles'=>array('_unknown'=>0));
 
         $list = Einstellungen::getLinks('getFiles', dirname(__FILE__), '/tgeneratedummyfiles_cconfig.json');
 
@@ -166,7 +205,7 @@ class GenerateDummyFiles
                         if (!isset($res['filesTypes'][$type])) $res['filesTypes'][$type] = 0;
                         $res['filesTypes'][$type]++;
                     } else {
-                        $res['filesTypes']['unknown']++;                        
+                        $res['filesTypes']['_unknown']++;                        
                     }
                     
                     // prüfe, ob die Datei fehlt
@@ -176,7 +215,7 @@ class GenerateDummyFiles
                             if (!isset($res['missingFiles'][$type])) $res['missingFiles'][$type] = 0;
                             $res['missingFiles'][$type]++;
                         } else {
-                            $res['missingFiles']['unknown']++;
+                            $res['missingFiles']['_unknown']++;
                         }
                     }
                 }
@@ -195,10 +234,13 @@ class GenerateDummyFiles
     public static function getDummyContent($type)
     {
         $dummyFile = 'unknown';
-        if ($type === 'JAVA') $dummyFile = 'Hallo.java';
-        if ($type === 'HASKELL') $dummyFile = 'Hallo.hs';
-        if ($type === 'TEXT') $dummyFile = 'Hallo.txt';
-        if ($type === 'PDF') $dummyFile = 'Hallo.pdf';
+        $typeMap = array('JAVA'=>'Hallo.java', 'HASKELL'=>'Hallo.hs', 'TEXT'=>'Hallo.txt',
+                         'PDF'=>'Hallo.pdf', 'ZIP'=>'Hallo.zip', 'RAR'=>'Hallo.rar',
+                         'GZIP'=>'Hallo.gz', 'C'=>'Hallo.c', 'CPP'=>'Hallo.cpp',
+                         'SATHERK'=>'Hallo.sa', 'JPEG'=>'Hallo.jpg', 'PNG'=>'Hallo.png',
+                         'GIF'=>'Hallo.gif', 'BMP'=>'Hallo.bmp', 'RTF'=>'Hallo.rtf',
+                         'ODT'=>'Hallo.odt', 'ODG'=>'Hallo.odg', 'DOC'=>'Hallo.doc',
+                         'DOCX'=>'Hallo.docx', 'TEX'=>'Hallo.tex');
         
         if (isset($cachedDummyData[$type])) return $cachedDummyData[$type];
         $dummyPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . $dummyFile;
@@ -239,8 +281,11 @@ class GenerateDummyFiles
                         if (!file_Exists($path)){
                             // füge den Dummy ein
                             Einstellungen::generatepath(dirname($path));
-                            file_put_contents($path, self::getDummyContent($type));
-                            $res['generatedFiles']++;
+                            $content = self::getDummyContent($type);
+                            if ($content !== false){
+                                file_put_contents($path, $content);
+                                $res['generatedFiles']++;
+                            }
                         }
                     }
                 }
