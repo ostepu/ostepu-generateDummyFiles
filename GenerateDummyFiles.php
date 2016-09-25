@@ -241,10 +241,16 @@ class GenerateDummyFiles
                          'GIF'=>'Hallo.gif', 'BMP'=>'Hallo.bmp', 'RTF'=>'Hallo.rtf',
                          'ODT'=>'Hallo.odt', 'ODG'=>'Hallo.odg', 'DOC'=>'Hallo.doc',
                          'DOCX'=>'Hallo.docx', 'TEX'=>'Hallo.tex');
+                         
+        if (isset($typeMap[$type])) {
+            $dummyFile = $typeMap[$type];
+        } else {
+            return false;
+        }
         
         if (isset($cachedDummyData[$type])) return $cachedDummyData[$type];
         $dummyPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . $dummyFile;
-        if (!file_exists($dummyPath)) return null;
+        if (!file_exists($dummyPath)) return false;
         $cachedDummyData[$type] = file_get_contents($dummyPath);
         return $cachedDummyData[$type];
     }
