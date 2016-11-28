@@ -52,6 +52,10 @@ class GenerateDummyFiles {
         if (!Einstellungen::$accessAllowed) {
             return;
         }
+        
+        if (!Paketverwaltung::isPackageSelected($data, 'GENERATE_DUMMY_FILES')){
+            return;
+        }
 
         Installation::log(array('text' => Installation::Get('main', 'functionBegin')));
         $text = '';
