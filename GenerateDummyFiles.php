@@ -13,14 +13,14 @@ class GenerateDummyFiles {
     private static $langTemplate = 'GenerateDummyFiles';
     public static $onEvents = array(
         'listFiles' => array(
-            'name' => 'listFiles',
-            'event' => array('actionListFiles'),
+            'name' => 'actionGenerateDummyFilesListFiles',
+            'event' => array('actionGenerateDummyFilesListFiles'),
             'procedure' => 'installListFiles',
             'enabledInstall' => true
         ),
         'generateFiles' => array(
-            'name' => 'generateFiles',
-            'event' => array('actionGenerateFiles'),
+            'name' => 'actionGenerateDummyFilesGenerateFiles',
+            'event' => array('actionGenerateDummyFilesGenerateFiles'),
             'procedure' => 'installGenerateFiles',
             'enabledInstall' => true
         )
